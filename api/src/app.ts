@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import express, { Application, Request, Response } from 'express';
 import morgan from 'morgan';
 
+import authController from './app/auth/auth.controller';
+import userController from './app/user/user.controller';
 import { connectMongoDb } from './utils/mongodb';
 
 const app: Application = express();
@@ -24,6 +26,8 @@ app.use(morgan('dev'));
 app.use('/ping', (_req: Request, res: Response) => {
   res.send(200);
 });
+app.use('/api/users', userController);
+app.use('/api/auth', authController);
 
 // Connect to MongoDB
 connectMongoDb();
