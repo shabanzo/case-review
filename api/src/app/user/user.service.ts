@@ -11,7 +11,7 @@ import userModel, { User } from './user.model';
 // Create User
 const createUser = async (userData: Partial<User>) => {
   const user = await userModel.create(userData);
-  return omit(user.toJSON(), excludedFields);
+  return omit(user, excludedFields);
 };
 
 // Find User by Id
