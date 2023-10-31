@@ -13,12 +13,7 @@ export const deserializeUser = async (
   try {
     // Get the token
     let accessToken;
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-    ) {
-      accessToken = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies.accessToken) {
+    if (req.cookies.accessToken) {
       accessToken = req.cookies.accessToken;
     }
 
