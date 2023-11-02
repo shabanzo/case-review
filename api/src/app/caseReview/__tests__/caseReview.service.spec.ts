@@ -48,8 +48,11 @@ describe('Case Review Service', () => {
   beforeAll(() => {
     (caseReviewModel.create as jest.Mock).mockResolvedValue(testCaseReviewData);
     (caseReviewModel.findById as jest.Mock).mockImplementationOnce(() => ({
-      populate: jest.fn().mockReturnValue(testCaseReviewData),
-      lean: jest.fn().mockReturnValue(testCaseReviewData),
+      populate: jest.fn().mockImplementationOnce(() => ({
+        populate: jest.fn().mockImplementationOnce(() => ({
+          lean: jest.fn().mockReturnValue(testCaseReviewData),
+        })),
+      })),
     }));
     (caseReviewModel.find as jest.Mock).mockResolvedValue([testCaseReviewData]);
     (caseReviewModel.findOneAndUpdate as jest.Mock).mockResolvedValue(
