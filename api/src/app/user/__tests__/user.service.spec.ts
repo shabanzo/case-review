@@ -48,25 +48,33 @@ describe('User Service', () => {
     (signJwt as jest.Mock).mockReturnValue('mockedToken');
   });
 
-  it('should create a user', async () => {
-    const createdUser = await userService.createUser(createUser);
-    expect(createdUser).toMatchObject(testUser);
+  describe('createUser', () => {
+    it('should create a user', async () => {
+      const createdUser = await userService.createUser(createUser);
+      expect(createdUser).toMatchObject(testUser);
+    });
   });
 
-  it('should find a user by ID', async () => {
-    const foundUser = await userService.findUserById('123');
-    expect(foundUser).toMatchObject(testUser);
+  describe('findUserById', () => {
+    it('should find a user by ID', async () => {
+      const foundUser = await userService.findUserById('123');
+      expect(foundUser).toMatchObject(testUser);
+    });
   });
 
-  it('should find all users', async () => {
-    const users = await userService.findAllUsers();
-    expect(users).toHaveLength(1);
-    expect(users[0]).toMatchObject(testUser);
+  describe('findAllUsers', () => {
+    it('should find all users', async () => {
+      const users = await userService.findAllUsers();
+      expect(users).toHaveLength(1);
+      expect(users[0]).toMatchObject(testUser);
+    });
   });
 
-  it('should find a user by email', async () => {
-    const query = { email: 'testuser@example.com' };
-    const foundUser = await userService.findUser(query);
-    expect(foundUser).toMatchObject(testUser);
+  describe('findUser', () => {
+    it('should find a user by email', async () => {
+      const query = { email: 'testuser@example.com' };
+      const foundUser = await userService.findUser(query);
+      expect(foundUser).toMatchObject(testUser);
+    });
   });
 });
