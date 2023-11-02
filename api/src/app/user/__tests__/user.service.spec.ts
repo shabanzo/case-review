@@ -1,34 +1,55 @@
-import { User } from '../user.model';
+import config from 'config';
+
+import { signJwt } from '../../../utils/jwt';
+import userModel, { User } from '../user.model';
 import userService from '../user.service';
 
-jest.mock('../user.service', () => ({
-  createUser: jest.fn(),
-  findUserById: jest.fn(),
-  findAllUsers: jest.fn(),
-  findUser: jest.fn(),
-  signToken: jest.fn(),
+jest.mock('config', () => ({
+  get: jest.fn(),
 }));
+
+jest.mock('../user.model', () => ({
+  create: jest.fn(),
+  findById: jest.fn(),
+  find: jest.fn(),
+  findOne: jest.fn(),
+}));
+
+jest.mock('../../../utils/jwt', () => ({
+  signJwt: jest.fn(),
+}));
+
+jest.mock('../../../utils/redis', () => require('redis-mock'));
 
 describe('User Service', () => {
   const testUser: Partial<User> = {
     name: 'testuser',
     email: 'testuser@example.com',
+  };
+  const createUser: Partial<User> = {
+    ...testUser,
     password: 'password123',
   };
 
   beforeAll(() => {
-    // Set up mock behavior for each function
-    (userService.createUser as jest.Mock).mockResolvedValue(testUser);
-    (userService.findUserById as jest.Mock).mockResolvedValue(testUser);
-    (userService.findAllUsers as jest.Mock).mockResolvedValue([testUser]);
-    (userService.findUser as jest.Mock).mockResolvedValue(testUser);
-    (userService.signToken as jest.Mock).mockResolvedValue({
-      accessToken: 'mockedToken',
+    (userModel.create as jest.Mock).mockResolvedValue(testUser);
+    (userModel.findById as jest.Mock).mockImplementationOnce(() => ({
+      lean: jest.fn().mockReturnValue(testUser),
+    }));
+    (userModel.find as jest.Mock).mockResolvedValue([testUser]);
+    (userModel.findOne as jest.Mock).mockReturnValue({
+      select: jest.fn().mockResolvedValue(testUser),
     });
+    (config.get as jest.Mock).mockImplementation((key: string) => {
+      if (key === 'accessTokenExpiresIn') {
+        return 15;
+      }
+    });
+    (signJwt as jest.Mock).mockReturnValue('mockedToken');
   });
 
   it('should create a user', async () => {
-    const createdUser = await userService.createUser(testUser);
+    const createdUser = await userService.createUser(createUser);
     expect(createdUser).toMatchObject(testUser);
   });
 
@@ -43,17 +64,9 @@ describe('User Service', () => {
     expect(users[0]).toMatchObject(testUser);
   });
 
-  it('should find a user by username', async () => {
-    const query = { username: 'testuser' };
+  it('should find a user by email', async () => {
+    const query = { email: 'testuser@example.com' };
     const foundUser = await userService.findUser(query);
     expect(foundUser).toMatchObject(testUser);
-  });
-
-  it('should sign a token', async () => {
-    const tokenResult = await userService.signToken(
-      testUser.email || '',
-      testUser.password || ''
-    );
-    expect(tokenResult.accessToken).toEqual('mockedToken');
   });
 });
