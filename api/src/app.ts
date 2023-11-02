@@ -7,6 +7,7 @@ import morgan from 'morgan';
 
 import authController from './app/auth/auth.controller';
 import caseReviewController from './app/caseReview/caseReview.controller';
+import commentController from './app/comment/comment.controller';
 import userController from './app/user/user.controller';
 import { connectMongoDb } from './utils/mongodb';
 
@@ -30,6 +31,7 @@ app.use('/ping', (_req: Request, res: Response) => {
 app.use('/api/auth', authController);
 app.use('/api/users', userController);
 app.use('/api/caseReviews', caseReviewController);
+app.use('/api/comments', commentController);
 
 // Connect to MongoDB
 connectMongoDb();
