@@ -26,7 +26,26 @@ const getAllUsers = async (
   }
 };
 
+export const getMyProfile = (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = res.locals.user;
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user,
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
 router.use(deserializeUser, requireUser);
 router.get('/', restrictTo('admin'), getAllUsers);
+router.get('/me', getMyProfile);
 
 export default router;
