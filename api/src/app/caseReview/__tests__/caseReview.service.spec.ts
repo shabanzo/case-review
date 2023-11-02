@@ -82,7 +82,7 @@ describe('Case Review Service', () => {
       expect(foundCaseReview).toMatchObject(testCaseReviewData);
     });
 
-    it('should return cached case review by ID', async () => {
+    it('should return cached case review by ID if the cached one is existed', async () => {
       (redisClient.get as jest.Mock).mockResolvedValue(
         JSON.stringify(testCaseReviewData)
       );
