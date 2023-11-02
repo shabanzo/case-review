@@ -39,7 +39,7 @@ const getCaseReviews = async (
   try {
     const user = res.locals.user;
     const caseReviews = await caseReviewRep.findCaseReviews({
-      authorityId: user._id,
+      authority: user._id,
     });
     console.log(caseReviews);
     res.status(200).json({ status: 'success', data: caseReviews });

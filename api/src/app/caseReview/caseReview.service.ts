@@ -15,7 +15,11 @@ const createCaseReview = async (
 
 // Find CaseReview by Id
 const findCaseReviewById = async (id: string) => {
-  return await caseReviewModel.findById(id).lean();
+  return await caseReviewModel
+    .findById(id)
+    .populate('authority')
+    .populate('assigned')
+    .lean();
 };
 
 // Find CaseReviews with filter

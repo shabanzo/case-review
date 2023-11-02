@@ -14,8 +14,8 @@ export const createCaseReviewValidation = z.object({
     camera: z.string({ required_error: 'Camera is required' }),
     team: z.string({ required_error: 'Team is required' }),
     status: z.enum(['submitted', 'inReview', 'completed']),
-    authorityId: z
-      .string({ required_error: 'AuthorityId is required' })
+    authority: z
+      .string({ required_error: 'Authority is required' })
       .refine((id) => ObjectIdRegex.test(id), {
         message: 'Invalid ObjectId',
       }),
@@ -25,8 +25,8 @@ export const createCaseReviewValidation = z.object({
 export const updateCaseReviewValidation = z.object({
   body: z.object({
     status: z.enum(['submitted', 'inReview', 'completed']),
-    assignedId: z
-      .string({ required_error: 'AssignedId is required' })
+    assigned: z
+      .string({ required_error: 'Assigned is required' })
       .refine((id) => ObjectIdRegex.test(id), {
         message: 'Invalid ObjectId',
       }),

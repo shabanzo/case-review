@@ -24,8 +24,8 @@ describe('Case Review Service', () => {
     camera: 'Test Camera',
     team: 'Test Team',
     status: 'submitted',
-    authorityId: 'authorityId',
-    assingedId: 'assignedId',
+    authority: 'authority',
+    assigned: 'assigned',
   };
 
   const createCaseReviewData: CreateCaseReviewInput = {
@@ -37,17 +37,18 @@ describe('Case Review Service', () => {
     camera: 'Test Camera',
     team: 'Test Team',
     status: 'submitted',
-    authorityId: 'authorityId',
+    authority: 'authority',
   };
 
   const updateCaseReviewData: UpdateCaseReviewInput = {
     status: 'submitted',
-    assignedId: 'assignedId',
+    assigned: 'assigned',
   };
 
   beforeAll(() => {
     (caseReviewModel.create as jest.Mock).mockResolvedValue(testCaseReviewData);
     (caseReviewModel.findById as jest.Mock).mockImplementationOnce(() => ({
+      populate: jest.fn().mockReturnValue(testCaseReviewData),
       lean: jest.fn().mockReturnValue(testCaseReviewData),
     }));
     (caseReviewModel.find as jest.Mock).mockResolvedValue([testCaseReviewData]);

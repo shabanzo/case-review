@@ -28,10 +28,10 @@ export class CaseReview {
   status!: string;
 
   @prop({ ref: () => User, required: true })
-  authorityId!: Ref<User>;
+  authority!: Ref<User>;
 
   @prop({ ref: () => User })
-  assignedId?: Ref<User>;
+  assigned?: Ref<User>;
 }
 const caseReviewModelModel = getModelForClass(CaseReview);
 export default caseReviewModelModel;
