@@ -1,7 +1,7 @@
 require('dotenv').config();
 import config from 'config';
 import cookieParser from 'cookie-parser';
-// import cors from 'cors';
+import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
 import morgan from 'morgan';
 
@@ -18,12 +18,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 
-// app.use(
-//   cors({
-//     origin: config.get<string>('origin'),
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: config.get<string>('origin'),
+    credentials: true,
+  })
+);
 
 app.use('/ping', (_req: Request, res: Response) => {
   res.send(200);

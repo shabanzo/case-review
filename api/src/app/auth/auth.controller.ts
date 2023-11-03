@@ -77,7 +77,25 @@ const login = async (
   }
 };
 
+const logout = async (
+  _req: Request<{}, {}, LoginUserInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.cookie('accessToken', '');
+    res.cookie('loggedIn', false);
+
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
 router.post('/register', validate(createUserValidation), register);
 router.post('/login', validate(loginUserValidation), login);
+router.post('/logout', logout);
 
 export default router;
