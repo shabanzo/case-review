@@ -87,11 +87,11 @@ const Comment: React.FC<Props> = ({ selectedId }) => {
           }}
           ref={commentInputRef}
         />
-        <a className="ms-1 text-muted" href="#!">
+        <a className="ms-1" href="#!">
           <FontAwesomeIcon icon={['fas', 'paperclip']} />
         </a>
         <a
-          className="ms-3 text-muted"
+          className="ms-3 text-warning"
           href="#!"
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
         >
