@@ -17,7 +17,7 @@ export default {
   dbUri: `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`,
   redisUrl: `redis://${REDIS_HOST}:${REDIS_PORT}`,
   origin: CLIENT_ORIGIN,
-  accessTokenExpiresIn: 15,
+  accessTokenExpiresIn: 480,
   accessTokenPrivateKey: ACCESS_TOKEN_PRIVATE_KEY,
   accessTokenPublicKey: ACCESS_TOKEN_PUBLIC_KEY,
 };
