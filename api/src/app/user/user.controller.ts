@@ -16,9 +16,7 @@ const getAllUsers = async (
     res.status(200).json({
       status: 'success',
       result: users.length,
-      data: {
-        users,
-      },
+      data: users,
     });
   } catch (err: any) {
     next(err);
@@ -34,9 +32,7 @@ export const getMyProfile = (
     const user = res.locals.user;
     res.status(200).json({
       status: 'success',
-      data: {
-        user,
-      },
+      data: user,
     });
   } catch (err: any) {
     next(err);
