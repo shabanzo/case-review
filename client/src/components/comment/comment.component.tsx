@@ -9,17 +9,15 @@ import {
   faPaperPlane,
   faS,
   faSmile,
+  faWindowClose,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import {
-  createTextComment,
-  getAllComments,
-} from '../../services/comment.service';
+import { createComment, getAllComments } from '../../services/comment.service';
 import BlankState from '../common/blankState.component';
 import CommentList from './commentList.component';
 
-library.add(faS, faSmile, faPaperPlane, faPaperclip);
+library.add(faS, faSmile, faPaperPlane, faPaperclip, faWindowClose);
 
 type Props = {
   selectedId: string | undefined;
@@ -27,6 +25,11 @@ type Props = {
 
 const Comment: React.FC<Props> = ({ selectedId }) => {
   const commentInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | undefined>(
+    undefined
+  );
+
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const { data, isLoading, refetch } = useQuery(
@@ -54,7 +57,7 @@ const Comment: React.FC<Props> = ({ selectedId }) => {
 
   const handleComment = async (commentText: string) => {
     if (commentText) {
-      await createTextComment(selectedId, commentText);
+      await createComment(selectedId, commentText);
       refetch();
       if (commentInputRef.current) {
         commentInputRef.current.value = '';
@@ -66,6 +69,13 @@ const Comment: React.FC<Props> = ({ selectedId }) => {
     const commentText = commentInputRef.current?.value;
     if (commentText !== undefined) {
       handleComment(commentText);
+    }
+  };
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setSelectedImage(selectedFile);
     }
   };
 
@@ -87,9 +97,20 @@ const Comment: React.FC<Props> = ({ selectedId }) => {
           }}
           ref={commentInputRef}
         />
-        <a className="ms-1" href="#!">
+        <a
+          className="ms-1"
+          href="#!"
+          onClick={() => fileInputRef.current?.click()}
+        >
           <FontAwesomeIcon icon={['fas', 'paperclip']} />
         </a>
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleImageSelect}
+        />
         <a
           className="ms-3 text-warning"
           href="#!"
@@ -103,6 +124,22 @@ const Comment: React.FC<Props> = ({ selectedId }) => {
         {showEmojiPicker && (
           <div className="emoji-picker shadow">
             <EmojiPicker onEmojiClick={handleEmojiSelect} width="100%" />
+          </div>
+        )}
+        {selectedImage && (
+          <div className="comment-uploaded-image">
+            <img
+              src={URL.createObjectURL(selectedImage)}
+              alt="Selected"
+              style={{ maxWidth: '100px' }}
+            />
+            <a
+              className="text-danger"
+              href="#!"
+              onClick={() => setSelectedImage(undefined)}
+            >
+              <FontAwesomeIcon icon={['fas', 'window-close']} />
+            </a>
           </div>
         )}
       </Card.Footer>

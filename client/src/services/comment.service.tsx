@@ -17,7 +17,7 @@ export const getAllComments = (caseId: string) => {
     });
 };
 
-export const createTextComment = (caseId: string, message: string) => {
+export const createComment = (caseId: string, message: string) => {
   const commenterId = getCurrentUser()._id;
   return axios
     .post(
