@@ -47,6 +47,8 @@ const Login: React.FC<Props> = () => {
       () => {
         getCurrentUser();
         navigate('/case-review');
+
+        window.location.reload();
       },
       (error) => {
         const resMessage =
@@ -98,7 +100,7 @@ const Login: React.FC<Props> = () => {
                   <Col className="mb-3">
                     <FloatingLabel
                       controlId="floatingInput"
-                      label="Email"
+                      label="Password"
                       className="mb-3"
                     >
                       <Field
@@ -142,9 +144,7 @@ const Login: React.FC<Props> = () => {
                   )}
 
                   <Col className="mb-3">
-                    <Link to="/registration">
-                      Do not have an account? Sign up!
-                    </Link>
+                    <Link to="/register">Do not have an account? Sign up!</Link>
                   </Col>
                 </Form>
               </Formik>

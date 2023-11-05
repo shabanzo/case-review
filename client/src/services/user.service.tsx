@@ -6,7 +6,6 @@ export const getCurrentUser = () => {
   return axios
     .get(API_URL + '/me', { withCredentials: true })
     .then((response) => {
-      console.log('here!!');
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
       return response.data.data.user;
     });

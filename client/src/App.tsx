@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Navigate, Route, Routes } from 'react-router-dom';
 
 import EventBus from './common/EventBus';
 import CaseReview from './components/caseReview.component';
@@ -13,15 +13,11 @@ import * as AuthService from './services/auth.service';
 import { IUser } from './types/user.type';
 
 const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<IUser | undefined>(undefined);
+  const [currentUser, setCurrentUser] = useState<IUser | undefined>(
+    AuthService.getCurrentUser()
+  );
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-    }
-
     EventBus.on('logout', logout);
 
     return () => {
@@ -77,7 +73,10 @@ const App: React.FC = () => {
 
       <Container className="mt-3">
         <Routes>
-          <Route path="/case-review" element={<CaseReview />} />
+          <Route
+            path="/case-review"
+            element={currentUser ? <CaseReview /> : <Navigate to="/login" />}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
