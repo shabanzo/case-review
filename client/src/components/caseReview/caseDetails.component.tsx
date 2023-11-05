@@ -21,7 +21,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { humanizeCamelCase } from '../../common/StringHelper';
+import { IsAdmin } from '../../common/Role';
+import {
+  capitalizeFirstLetter,
+  humanizeCamelCase,
+} from '../../common/StringHelper';
+import { getCurrentUser } from '../../services/auth.service';
 import {
   getCaseReviewDetails,
   updateCaseReviewDetails,
@@ -38,6 +43,7 @@ type Props = {
 };
 
 const CaseDetails: React.FC<Props> = ({ selectedId, refetchList }) => {
+  const currentUser = getCurrentUser();
   const { data, isLoading, isError, refetch } = useQuery(
     ['caseReview', selectedId],
     () => {
@@ -153,25 +159,39 @@ const CaseDetails: React.FC<Props> = ({ selectedId, refetchList }) => {
               <Col as="dt" className="col-sm-4">
                 Assigned
               </Col>
-              <Col as="dd" className="p-0 col-sm-6">
-                <AssignCaseReview
-                  assignedId={caseReview.assigned._id}
-                  handleOnAssign={handleOnAssign}
-                />
+              <Col
+                as="dd"
+                className={`p-0 col-sm-6 ${!IsAdmin() && 'border-bottom'}`}
+              >
+                {IsAdmin() ? (
+                  <AssignCaseReview
+                    assignedId={caseReview.assigned._id}
+                    handleOnAssign={handleOnAssign}
+                  />
+                ) : (
+                  caseReview.assigned.name
+                )}
               </Col>
               <Col as="dt" className="col-sm-4">
                 Status
               </Col>
-              <Col as="dd" className="p-0 col-sm-6">
-                <Form.Select
-                  size="sm"
-                  value={caseReview.status}
-                  onChange={(e) => handleSelectStatus(e.target.value)}
-                >
-                  <option value="submitted">Submitted</option>
-                  <option value="inReview">In Review</option>
-                  <option value="completed">Completed</option>
-                </Form.Select>
+              <Col
+                as="dd"
+                className={`p-0 col-sm-6 ${!IsAdmin() && 'border-bottom'}`}
+              >
+                {IsAdmin() ? (
+                  <Form.Select
+                    size="sm"
+                    value={caseReview.status}
+                    onChange={(e) => handleSelectStatus(e.target.value)}
+                  >
+                    <option value="submitted">Submitted</option>
+                    <option value="inReview">In Review</option>
+                    <option value="completed">Completed</option>
+                  </Form.Select>
+                ) : (
+                  capitalizeFirstLetter(caseReview.status)
+                )}
               </Col>
             </Row>
           </div>
