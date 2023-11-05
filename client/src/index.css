@@ -82,5 +82,11 @@ code {
 }
 
 .comment-body {
-  max-height: 250px !important;
+  height: 250px !important;
+}
+
+.emoji-picker {
+  position: absolute;
+  bottom: 0;
+  left: -95%;
 }

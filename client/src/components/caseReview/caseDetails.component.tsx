@@ -1,41 +1,21 @@
 import React from 'react';
-import {
-  Card,
-  Col,
-  Figure,
-  Form,
-  FormControl,
-  Image,
-  ListGroup,
-  Row,
-} from 'react-bootstrap';
+import { Card, Col, Figure, Form, Image, Row } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { useQuery } from 'react-query';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faPaperclip,
-  faPaperPlane,
-  faS,
-  faSmile,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IsAdmin } from '../../common/Role';
 import {
   capitalizeFirstLetter,
   humanizeCamelCase,
 } from '../../common/StringHelper';
-import { getCurrentUser } from '../../services/auth.service';
 import {
   getCaseReviewDetails,
   updateCaseReviewDetails,
 } from '../../services/caseReview.service';
+import Comment from '../comment/comment.component';
 import BlankState from '../common/blankState.component';
 import Loading from '../common/loading.component';
 import AssignCaseReview from './assignCaseReview.component';
-
-library.add(faS, faSmile, faPaperPlane, faPaperclip);
 
 type Props = {
   selectedId: string | undefined;
@@ -43,7 +23,6 @@ type Props = {
 };
 
 const CaseDetails: React.FC<Props> = ({ selectedId, refetchList }) => {
-  const currentUser = getCurrentUser();
   const { data, isLoading, isError, refetch } = useQuery(
     ['caseReview', selectedId],
     () => {
@@ -197,72 +176,10 @@ const CaseDetails: React.FC<Props> = ({ selectedId, refetchList }) => {
           </div>
           <Card className="comment w-50">
             <Card.Header className="py-3">
-              <h5 className="mb-1">PTSM Pte Ltd</h5>
-              <p>Not wearing PPE Equipment</p>
+              <h5 className="mb-1">{caseReview.team}</h5>
+              <p>{caseReview.description}</p>
             </Card.Header>
-            <Card.Body className="comment-body overflow-y-scroll">
-              <h6>Comments</h6>
-
-              <ListGroup>
-                <ListGroup.Item
-                  disabled
-                  action
-                  as="li"
-                  className="d-flex justify-content-between align-items-start"
-                >
-                  <div className="ms-2 me-auto">
-                    <small>Aug 23, 2021 14:11:08 PM</small>
-                    <dd>Daniel Bakerman (You)</dd>
-                    <p>
-                      lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      lorem ipsum dolor sit amet
-                    </p>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item
-                  disabled
-                  action
-                  as="li"
-                  className="d-flex justify-content-between align-items-start"
-                >
-                  <div className="ms-2 me-auto">
-                    <small>Aug 23, 2021 14:12:08 PM</small>
-                    <dd>Chad Lakefield</dd>
-                    <p>
-                      lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      lorem ipsum dolor sit amet
-                    </p>
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item
-                  disabled
-                  action
-                  as="li"
-                  className="d-flex justify-content-between align-items-start"
-                >
-                  <div className="ms-2 me-auto">
-                    <small>Aug 23, 2021 14:12:08 PM</small>
-                    <dd>Chad Lakefield</dd>
-                    <p>
-                      lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      lorem ipsum dolor sit amet
-                    </p>
-                  </div>
-                </ListGroup.Item>
-              </ListGroup>
-            </Card.Body>
-            <Card.Footer className="bg-white text-muted d-flex justify-content-start align-items-center p-3">
-              <FormControl type="text" placeholder="Type comment"></FormControl>
-              <a className="ms-1 text-muted" href="#!">
-                <FontAwesomeIcon icon={['fas', 'paperclip']} />
-              </a>
-              <a className="ms-3 text-muted" href="#!">
-                <FontAwesomeIcon icon={['fas', 'smile']} />
-              </a>
-              <a className="ms-3" href="#!">
-                <FontAwesomeIcon icon={['fas', 'paper-plane']} />
-              </a>
-            </Card.Footer>
+            <Comment selectedId={selectedId} />
           </Card>
         </Card.Body>
       </Card>
