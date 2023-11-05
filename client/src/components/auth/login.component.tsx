@@ -13,8 +13,8 @@ import {
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { login } from '../services/auth.service';
-import { getCurrentUser } from '../services/user.service';
+import { login } from '../../services/auth.service';
+import { getCurrentUser } from '../../services/user.service';
 
 type Props = {};
 

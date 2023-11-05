@@ -21,19 +21,24 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { humanizeCamelCase } from '../common/StringHelper';
-import { getCaseReviewDetails } from '../services/caseReview.service';
-import BlankState from './blankState.component';
-import Loading from './loading.component';
+import { humanizeCamelCase } from '../../common/StringHelper';
+import {
+  getCaseReviewDetails,
+  updateCaseReviewDetails,
+} from '../../services/caseReview.service';
+import BlankState from '../common/blankState.component';
+import Loading from '../common/loading.component';
+import AssignCaseReview from './assignCaseReview.component';
 
 library.add(faS, faSmile, faPaperPlane, faPaperclip);
 
 type Props = {
   selectedId: string | undefined;
+  refetchList: () => void;
 };
 
-const CaseDetails: React.FC<Props> = ({ selectedId }) => {
-  const { data, isLoading, isError } = useQuery(
+const CaseDetails: React.FC<Props> = ({ selectedId, refetchList }) => {
+  const { data, isLoading, isError, refetch } = useQuery(
     ['caseReview', selectedId],
     () => {
       if (!selectedId) {
@@ -55,6 +60,20 @@ const CaseDetails: React.FC<Props> = ({ selectedId }) => {
   }
 
   const caseReview = data;
+
+  const handleSelectStatus = async (value: string) => {
+    await updateCaseReviewDetails(selectedId, { status: value });
+    refetch();
+    refetchList();
+  };
+
+  const handleOnAssign = async (value: string) => {
+    await updateCaseReviewDetails(selectedId, {
+      assigned: value,
+    });
+    refetch();
+    refetchList();
+  };
 
   return (
     <Card.Body>
@@ -123,29 +142,32 @@ const CaseDetails: React.FC<Props> = ({ selectedId }) => {
                 Authority
               </Col>
               <Col as="dd" className="p-0 col-sm-6 border-bottom">
-                Daniel Bakerman
+                {caseReview.authority.name}
               </Col>
               <Col as="dt" className="col-sm-4">
                 Team
               </Col>
               <Col as="dd" className="p-0 col-sm-6 border-bottom">
-                PTSM Pte Ltd
+                {caseReview.team}
               </Col>
               <Col as="dt" className="col-sm-4">
                 Assigned
               </Col>
               <Col as="dd" className="p-0 col-sm-6">
-                <Form.Select size="sm" aria-label="Default select">
-                  <option value="1">Chad Lakefield</option>
-                  <option value="2">Daniel Bakerman</option>
-                  <option value="3">John Vujovic</option>
-                </Form.Select>
+                <AssignCaseReview
+                  assignedId={caseReview.assigned._id}
+                  handleOnAssign={handleOnAssign}
+                />
               </Col>
               <Col as="dt" className="col-sm-4">
                 Status
               </Col>
               <Col as="dd" className="p-0 col-sm-6">
-                <Form.Select size="sm" aria-label="Default select">
+                <Form.Select
+                  size="sm"
+                  value={caseReview.status}
+                  onChange={(e) => handleSelectStatus(e.target.value)}
+                >
                   <option value="submitted">Submitted</option>
                   <option value="inReview">In Review</option>
                   <option value="completed">Completed</option>

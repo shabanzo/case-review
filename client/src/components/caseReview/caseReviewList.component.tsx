@@ -1,27 +1,27 @@
 import React from 'react';
 import { Badge, ListGroup, Row } from 'react-bootstrap';
 import Moment from 'react-moment';
-import { useQuery } from 'react-query';
 
 import {
   capitalizeFirstLetter,
   humanizeCamelCase,
-} from '../common/StringHelper';
-import { getAllCaseReviews } from '../services/caseReview.service';
-import BlankState from './blankState.component';
-import Loading from './loading.component';
+} from '../../common/StringHelper';
+import BlankState from '../common/blankState.component';
+import Loading from '../common/loading.component';
 
 type Props = {
   selectedId?: string;
   onClickCase: (caseReviewId: string) => void;
+  data: any;
+  isLoading: boolean;
 };
 
-const CaseReviewList: React.FC<Props> = ({ selectedId, onClickCase }) => {
-  const { data, isLoading, isError } = useQuery(
-    'caseReviews',
-    getAllCaseReviews
-  );
-
+const CaseReviewList: React.FC<Props> = ({
+  selectedId,
+  onClickCase,
+  data,
+  isLoading,
+}) => {
   const caseReviewPriority = (priority: string): string => {
     const priorityBadge = {
       high: 'danger',
@@ -40,7 +40,7 @@ const CaseReviewList: React.FC<Props> = ({ selectedId, onClickCase }) => {
     return statusBadge[status as keyof typeof statusBadge];
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading || !data) return <Loading />;
 
   if (data.length === 0)
     return <BlankState message="You don't have any cases" />;

@@ -6,9 +6,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
 
 import EventBus from './common/EventBus';
-import CaseReview from './components/caseReview.component';
-import Login from './components/login.component';
-import Register from './components/register.component';
+import Login from './components/auth/login.component';
+import Register from './components/auth/register.component';
+import CaseReview from './components/caseReview/caseReview.component';
 import * as AuthService from './services/auth.service';
 import { IUser } from './types/user.type';
 

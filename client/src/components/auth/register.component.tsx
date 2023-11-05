@@ -13,8 +13,8 @@ import {
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { register } from '../services/auth.service';
-import { IUser } from '../types/user.type';
+import { register } from '../../services/auth.service';
+import { IUser } from '../../types/user.type';
 
 const Registration: React.FC = () => {
   let navigate: NavigateFunction = useNavigate();
