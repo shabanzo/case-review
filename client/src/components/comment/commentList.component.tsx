@@ -38,6 +38,7 @@ const CommentList: React.FC<Props> = ({ data, isLoading }) => {
           disabled
           action
           as="li"
+          key={comment._id}
           className="d-flex justify-content-between align-items-start"
         >
           <div className="ms-2 me-auto">
