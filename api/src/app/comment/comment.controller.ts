@@ -29,15 +29,11 @@ const createComment = async (
   }
 };
 
-const getComments = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getComments = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = res.locals.user;
+    const caseId = req.query.caseId;
     const comments = await commentRep.findComments({
-      authority: user._id,
+      case: caseId,
     });
     res.status(200).json({ status: 'success', data: comments });
   } catch (error) {
