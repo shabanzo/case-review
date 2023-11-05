@@ -2,7 +2,6 @@ import express, { NextFunction, Request, Response } from 'express';
 
 import { deserializeUser } from '../../middleware/deserializeUser';
 import { requireUser } from '../../middleware/requireUser';
-import { restrictTo } from '../../middleware/restrictTo';
 import userService from './user.service';
 
 const router = express.Router();
@@ -45,7 +44,7 @@ export const getMyProfile = (
 };
 
 router.use(deserializeUser, requireUser);
-router.get('/', restrictTo('admin'), getAllUsers);
+router.get('/', getAllUsers);
 router.get('/me', getMyProfile);
 
 export default router;

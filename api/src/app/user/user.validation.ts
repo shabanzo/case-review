@@ -22,7 +22,7 @@ export const loginUserValidation = object({
       'Invalid email or password'
     ),
     password: string({ required_error: 'Password is required' }).min(
-      8,
+      6,
       'Invalid email or password'
     ),
   }),
