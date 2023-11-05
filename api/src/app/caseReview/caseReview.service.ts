@@ -34,7 +34,7 @@ const findCaseReviewById = async (id: string) => {
 
 // Find CaseReviews with filter
 const findCaseReviews = async (query: FilterQuery<CaseReview>) => {
-  return await caseReviewModel.find(query);
+  return await caseReviewModel.find(query).populate('authority');
 };
 
 // Update CaseReview by Id

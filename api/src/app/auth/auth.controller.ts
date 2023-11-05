@@ -47,7 +47,7 @@ const register = async (
   } catch (err: any) {
     if (err.code === 11000) {
       return res.status(409).json({
-        status: 'fail',
+        status: 'failed',
         message: 'Email already exist',
       });
     }
@@ -73,6 +73,10 @@ const login = async (
       status: 'success',
     });
   } catch (err: any) {
+    res.status(err.status).json({
+      status: 'failed',
+      message: err.message,
+    });
     next(err);
   }
 };

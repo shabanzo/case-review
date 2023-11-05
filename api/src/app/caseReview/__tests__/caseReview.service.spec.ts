@@ -36,6 +36,7 @@ describe('Case Review Service', () => {
   };
 
   const createCaseReviewData: CreateCaseReviewInput = {
+    imageUrl: 'image.png',
     alert: 'Test Alert',
     priority: 'low',
     description: 'Test Description',
@@ -61,10 +62,12 @@ describe('Case Review Service', () => {
         })),
       })),
     }));
-    (caseReviewModel.find as jest.Mock).mockResolvedValue([testCaseReviewData]);
-    (caseReviewModel.findOneAndUpdate as jest.Mock).mockResolvedValue(
-      testCaseReviewData
-    );
+    (caseReviewModel.find as jest.Mock).mockImplementationOnce(() => ({
+      populate: jest.fn().mockReturnValue([testCaseReviewData]),
+    })),
+      (caseReviewModel.findOneAndUpdate as jest.Mock).mockResolvedValue(
+        testCaseReviewData
+      );
   });
   describe('createCaseReview', () => {
     it('should create a case review', async () => {

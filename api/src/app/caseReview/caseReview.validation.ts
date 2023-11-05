@@ -4,6 +4,7 @@ const ObjectIdRegex = /^[0-9a-fA-F]{24}$/;
 
 export const createCaseReviewValidation = z.object({
   body: z.object({
+    imageUrl: z.string({ required_error: 'ImageUrl is required' }),
     alert: z.string({ required_error: 'Alert is required' }),
     priority: z.enum(['high', 'mid', 'low']),
     description: z.string({ required_error: 'Description is required' }),

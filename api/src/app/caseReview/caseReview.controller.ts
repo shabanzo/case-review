@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 
 import { deserializeUser } from '../../middleware/deserializeUser';
 import { requireUser } from '../../middleware/requireUser';
+import { restrictTo } from '../../middleware/restrictTo';
 import { validate } from '../../middleware/validate';
 import caseReviewRep from './caseReview.service';
 import {
@@ -22,11 +23,13 @@ const createCaseReview = async (
 
     res.status(201).json({
       status: 'success',
-      data: {
-        createCaseReview,
-      },
+      data: createCaseReview,
     });
-  } catch (error) {
+  } catch (error: any) {
+    res.status(error.status).json({
+      status: 'failed',
+      message: error.message,
+    });
     next(error);
   }
 };
@@ -39,11 +42,19 @@ const getCaseReviews = async (
   try {
     const user = res.locals.user;
     const caseReviews = await caseReviewRep.findCaseReviews({
-      authority: user._id,
+      $or: [
+        {
+          authority: user._id,
+        },
+        { assigned: user._id },
+      ],
     });
-    console.log(caseReviews);
     res.status(200).json({ status: 'success', data: caseReviews });
-  } catch (error) {
+  } catch (error: any) {
+    res.status(error.status).json({
+      status: 'failed',
+      message: error.message,
+    });
     next(error);
   }
 };
@@ -61,7 +72,11 @@ const getCaseReviewById = async (
       status: 'success',
       data: caseReview,
     });
-  } catch (error) {
+  } catch (error: any) {
+    res.status(error.status).json({
+      status: 'failed',
+      message: error.message,
+    });
     next(error);
   }
 };
@@ -82,7 +97,11 @@ const updateCaseReviewById = async (
       status: 'success',
       data: caseReview,
     });
-  } catch (error) {
+  } catch (error: any) {
+    res.status(error.status).json({
+      status: 'failed',
+      message: error.message,
+    });
     next(error);
   }
 };
@@ -91,6 +110,6 @@ router.use(deserializeUser, requireUser);
 router.post('/', validate(createCaseReviewValidation), createCaseReview);
 router.get('/', getCaseReviews);
 router.get('/:id', getCaseReviewById);
-router.put('/:id', updateCaseReviewById);
+router.put('/:id', restrictTo('admin'), updateCaseReviewById);
 
 export default router;

@@ -1,8 +1,21 @@
-import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import {
+  getModelForClass,
+  modelOptions,
+  prop,
+  Ref,
+} from '@typegoose/typegoose';
 
 import { User } from '../user/user.model';
 
+@modelOptions({
+  schemaOptions: {
+    timestamps: true,
+  },
+})
 export class CaseReview {
+  @prop({ required: true })
+  imageUrl!: string;
+
   @prop({ required: true })
   alert!: string;
 
