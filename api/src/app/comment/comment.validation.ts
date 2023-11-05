@@ -5,7 +5,6 @@ const ObjectIdRegex = /^[0-9a-fA-F]{24}$/;
 export const createCommentValidation = z.object({
   body: z.object({
     message: z.string().min(1),
-    time: z.date(),
     commenter: z
       .string({ required_error: 'Authority is required' })
       .refine((id) => ObjectIdRegex.test(id), {

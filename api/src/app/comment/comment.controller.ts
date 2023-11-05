@@ -22,9 +22,7 @@ const createComment = async (
 
     res.status(201).json({
       status: 'success',
-      data: {
-        createComment,
-      },
+      data: createComment,
     });
   } catch (error) {
     next(error);
@@ -41,7 +39,6 @@ const getComments = async (
     const comments = await commentRep.findComments({
       authority: user._id,
     });
-    console.log(comments);
     res.status(200).json({ status: 'success', data: comments });
   } catch (error) {
     next(error);

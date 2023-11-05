@@ -13,13 +13,11 @@ jest.mock('../comment.model', () => ({
 describe('Comment Service', () => {
   const testCommentData = {
     message: 'Test Comment',
-    time: new Date(),
     commenter: 'commenterId',
   };
 
   const createCommentData: CreateCommentInput = {
     message: 'Test Comment',
-    time: new Date(),
     commenter: 'commenterId',
     case: 'caseId',
   };

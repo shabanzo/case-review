@@ -1,14 +1,21 @@
-import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import {
+  getModelForClass,
+  modelOptions,
+  prop,
+  Ref,
+} from '@typegoose/typegoose';
 
 import { CaseReview } from '../caseReview/caseReview.model';
 import { User } from '../user/user.model';
 
+@modelOptions({
+  schemaOptions: {
+    timestamps: true,
+  },
+})
 export class Comment {
   @prop({ required: true })
   message!: string;
-
-  @prop({ required: true })
-  time!: Date;
 
   @prop({ ref: () => User, required: true })
   commenter!: Ref<User>;
