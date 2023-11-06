@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup } from 'react-bootstrap';
+import { Image, ListGroup } from 'react-bootstrap';
 import Moment from 'react-moment';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -45,6 +45,7 @@ const CommentList: React.FC<Props> = ({ data, isLoading }) => {
             <small>
               <Moment format="LLL" date={comment.createdAt} />
             </small>
+
             <dd
               className={
                 comment.commenter._id === currentUser._id ? 'fw-bold' : ''
@@ -53,6 +54,7 @@ const CommentList: React.FC<Props> = ({ data, isLoading }) => {
               {comment.commenter.name}{' '}
               {comment.commenter._id === currentUser._id && '(You)'}
             </dd>
+            {comment.imageUrl && <Image src={comment.imageUrl} width="100%" />}
             <p>{comment.message}</p>
           </div>
         </ListGroup.Item>

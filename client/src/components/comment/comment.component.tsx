@@ -14,6 +14,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { createComment, getAllComments } from '../../services/comment.service';
+import { uploadFile } from '../../services/s3.service';
 import BlankState from '../common/blankState.component';
 import CommentList from './commentList.component';
 
@@ -56,12 +57,20 @@ const Comment: React.FC<Props> = ({ selectedId }) => {
   };
 
   const handleComment = async (commentText: string) => {
+    let imageUrl = '';
     if (commentText) {
-      await createComment(selectedId, commentText);
+      if (selectedImage) {
+        imageUrl = (await uploadFile(selectedImage)) || '';
+      }
+      await createComment(selectedId, commentText, imageUrl);
       refetch();
       if (commentInputRef.current) {
         commentInputRef.current.value = '';
       }
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      setSelectedImage(undefined);
     }
   };
 

@@ -90,3 +90,15 @@ code {
   bottom: 0;
   left: -95%;
 }
+
+.comment-uploaded-image {
+  position: absolute;
+  bottom: 75px;
+  left: 5px;
+}
+
+.comment-uploaded-image a {
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
