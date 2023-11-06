@@ -14,6 +14,9 @@ import { User } from '../user/user.model';
   },
 })
 export class Comment {
+  @prop()
+  imageUrl!: string;
+
   @prop({ required: true })
   message!: string;
 
