@@ -2,8 +2,8 @@
 
 ## Contents
 
-1. [Getting Started](https://github.com/shabanzo/case-review/blob/main/README.md#getting-started)
-2. [Testing](https://github.com/shabanzo/case-review/blob/main/README.md#testing)
+1. [Getting Started](https://github.com/shabanzo/case-review/blob/master/README.md#getting-started)
+2. [Testing](https://github.com/shabanzo/case-review/blob/master/README.md#testing)
 3. [Technical Documentation](https://miro.com/app/board/uXjVNVK10r4=/?share_link_id=637638284788)
 
 ## Getting Started
