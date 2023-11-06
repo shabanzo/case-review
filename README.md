@@ -30,6 +30,8 @@ docker build -t client .
 docker run --name client -p 3000:3000 client
 ```
 
+5. You can also run the client application by start the npm if you've installed the npm before.
+
 ## Testing
 
 ### Using Docker
