@@ -1,11 +1,10 @@
 import AWS from 'aws-sdk';
 
 const s3Config = {
-  bucketName: process.env.S3_BUCKET || 'kinetix-test',
-  region: process.env.AWS_REGION || 'ap-southeast-1',
-  accessKeyId: process.env.AWS_SECRET_KEY || 'AKIATENGHAY5JKLHJK5O',
-  secretAccessKey:
-    process.env.AWS_SECRET_ACCESS || '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',
+  bucketName: process.env.S3_BUCKET || '',
+  region: process.env.AWS_REGION || '',
+  accessKeyId: process.env.AWS_SECRET_KEY || '',
+  secretAccessKey: process.env.AWS_SECRET_ACCESS || '',
 };
 
 const getS3FileUrl = (bucketName: string, region: string, key: string) => {

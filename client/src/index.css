@@ -85,6 +85,11 @@ code {
   height: 250px !important;
 }
 
+.comment-body a {
+  height: 100%;
+  width: 100%;
+}
+
 .emoji-picker {
   position: absolute;
   bottom: 0;

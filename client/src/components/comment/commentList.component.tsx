@@ -1,5 +1,5 @@
-import React from 'react';
-import { Image, ListGroup } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Image, ListGroup, Modal } from 'react-bootstrap';
 import Moment from 'react-moment';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -22,6 +22,7 @@ type Props = {
 };
 
 const CommentList: React.FC<Props> = ({ data, isLoading }) => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const currentUser = getCurrentUser();
   if (isLoading) {
     return <Loading />;
@@ -31,8 +32,16 @@ const CommentList: React.FC<Props> = ({ data, isLoading }) => {
     return <BlankState message="No comments yet" />;
   }
 
+  const openImageModal = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+  };
+
+  const closeImageModal = () => {
+    setSelectedImage(null);
+  };
+
   return (
-    <ListGroup>
+    <ListGroup style={{ pointerEvents: 'none' }}>
       {data.map((comment: any) => (
         <ListGroup.Item
           disabled
@@ -54,11 +63,26 @@ const CommentList: React.FC<Props> = ({ data, isLoading }) => {
               {comment.commenter.name}{' '}
               {comment.commenter._id === currentUser._id && '(You)'}
             </dd>
-            {comment.imageUrl && <Image src={comment.imageUrl} width="100%" />}
+            {comment.imageUrl && (
+              <Image
+                src={comment.imageUrl}
+                width="100%"
+                className="mb-2"
+                onClick={() => openImageModal(comment.imageUrl)}
+              />
+            )}
             <p>{comment.message}</p>
           </div>
         </ListGroup.Item>
       ))}
+      <Modal show={selectedImage !== null} onHide={closeImageModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Image src={selectedImage ? selectedImage : ''} fluid />
+        </Modal.Body>
+      </Modal>
     </ListGroup>
   );
 };
