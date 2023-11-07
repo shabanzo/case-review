@@ -38,7 +38,7 @@ docker run --name client -p 3000:3000 client
      docker-compose up -d mongo-express
    ```
    b. Go to to `http://localhost:28081/db/case_review_db` and enter the basic auth that you defined in `.env`
-8. Or via the API here in the Postman: [Postman](https://api.postman.com/collections/1759219-310c6019-1a15-4177-9ad6-8e805f3ce279?access_key=PMAT-01HEKNHWGH1HK1JD598NTYFZC4) or send manually:
+8. Or you can check the API Documentation here in the Postman: [Postman](https://api.postman.com/collections/1759219-310c6019-1a15-4177-9ad6-8e805f3ce279?access_key=PMAT-01HEKNHWGH1HK1JD598NTYFZC4) and send it manually:
 
    a. Login first (Change the value based on your registered user):
    ```
