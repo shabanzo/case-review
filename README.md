@@ -11,7 +11,7 @@
 ### Using Docker
 
 1. Make sure you have Docker installed on your machine.
-2. Set `.env` file
+2. Set `.env` file for each folder: `api` and `client`, you can check the sample there
 3. Run the backend application inside `api` directory using:
 
 ```
